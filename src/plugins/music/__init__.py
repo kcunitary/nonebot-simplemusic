@@ -3,6 +3,7 @@ from nonebot.typing import T_State
 from nonebot.adapters import Bot, Event
 from nonebot.adapters.cqhttp import Bot,Message,GroupMessageEvent
 from . import data_source
+from nonebot.adapters.cqhttp.message import MessageSegment
 qqmusic = on_command("点歌", priority=5)
 
 @qqmusic.handle()
@@ -12,7 +13,7 @@ async def handle(bot: Bot, event: GroupMessageEvent, state: T_State):
     if args !='':
         id =await data_source.qq_search(args)
         if id != '':
-            msg='[CQ:music,type=qq,id={}]'.format(id)
+            msg=MessageSegment.music(type_='qq',id_=id)
     Msg = Message(msg)
     await qqmusic.finish(Msg)
 
@@ -25,7 +26,7 @@ async def handle(bot: Bot, event: GroupMessageEvent, state: T_State):
     if args !='':
         id =await data_source.neteasy_search(args)
         if id != '':
-            msg='[CQ:music,type=163,id={}]'.format(id)
+            msg=MessageSegment.music(type_='163',id_=id)
     Msg = Message(msg)
     await music.finish(Msg)
 
